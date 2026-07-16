@@ -7,12 +7,22 @@ before any feature module lands.
 """
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from contextlib import asynccontextmanager
+from app.core.init_db import init_db
 
 from app.core.config import get_settings
 
 settings = get_settings()
 
-app = FastAPI(title=settings.app_name)
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    init_db()          # Create all database tables
+    yield
+
+app = FastAPI(
+    title=settings.app_name,
+    lifespan=lifespan
+)
 
 # Wide-open CORS for local dev; tighten before production deployment.
 app.add_middleware(
