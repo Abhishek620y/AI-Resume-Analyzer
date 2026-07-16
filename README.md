@@ -1,127 +1,218 @@
-# AI Resume Analyzer & Job Description Matching System
+# 🚀 AI Resume Analyzer
 
-A full-stack web application that parses resumes, generates an explainable
-ATS score, matches resumes against job descriptions, and produces
-AI-assisted improvement suggestions.
+![React](https://img.shields.io/badge/React-19-blue)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.115-green)
+![Python](https://img.shields.io/badge/Python-3.11-yellow)
+![License](https://img.shields.io/badge/License-MIT-red)
+![Deployment](https://img.shields.io/badge/Deployment-Vercel%20%2B%20Render-success)
 
-## Modules
 
-1. **Resume Parsing** — extracts name, email, phone, education, experience,
-   skills, projects, and certifications from PDF/DOCX resumes.
-2. **ATS Resume Analysis** — rule-based, explainable scoring engine
-   (Formatting 15, Skills 20, Projects 20, Experience 20, Education 10,
-   Grammar/Keywords 15).
-3. **Job Description Matching** — compares resume skills against JD
-   required skills using keyword matching + semantic similarity
-   (sentence-transformers, with a TF-IDF fallback if offline).
-4. **AI Career Coach** — uses an LLM (OpenAI/Gemini, pluggable) purely for
-   feedback, summaries, and improvement suggestions. Skill extraction is
-   NEVER done via AI — only rule-based NLP.
+# 🚀 AI Resume Analyzer
 
-## Tech Stack
+An AI-powered Resume Analyzer and ATS Scoring System built using **React**, **FastAPI**, and **SQLite/PostgreSQL**. The application helps job seekers improve their resumes by analyzing ATS compatibility, extracting skills, matching resumes with job descriptions, and providing AI-powered suggestions.
 
-**Frontend:** React.js, Tailwind CSS v4, Shadcn-style UI, React Router, Axios, Recharts
-**Backend:** FastAPI, Uvicorn, SQLAlchemy, Pydantic
-**Parsing:** pdfplumber, PyMuPDF, python-docx
-**NLP:** spaCy, sentence-transformers, scikit-learn (TF-IDF fallback)
-**Database:** SQLite (dev) → PostgreSQL (swap via `DATABASE_URL`)
-**Auth:** JWT (Admin / Recruiter roles)
+---
 
-## Project Structure
+## 🌐 Live Demo
 
+### 🔗 Frontend (Vercel)
+https://ai-resume-analyzer-4uj6g56pm.vercel.app
+
+### 🔗 Backend API (Render)
+https://ai-resume-analyzer-c35a.onrender.com
+
+### 📖 API Documentation (Swagger UI)
+https://ai-resume-analyzer-c35a.onrender.com/docs
+
+---
+
+## ✨ Features
+
+- 🔐 User Authentication (Candidate & Recruiter)
+- 📄 Resume Upload (PDF & DOCX)
+- 🤖 AI Resume Analysis
+- 📊 ATS Score Calculation
+- 💼 Job Description Matching
+- 🎯 Resume Match Percentage
+- 🧠 Skill Extraction
+- ⚡ Missing Skills Detection
+- 💡 AI Resume Improvement Suggestions
+- 📈 Recruiter Dashboard
+- 📁 Resume History
+- 🔎 Resume Search
+
+---
+
+## 🛠 Tech Stack
+
+### Frontend
+- React.js
+- Vite
+- Tailwind CSS
+- Axios
+
+### Backend
+- FastAPI
+- SQLAlchemy
+- JWT Authentication
+- Pydantic
+
+### Database
+- SQLite (Development)
+- PostgreSQL (Production Ready)
+
+### AI
+- OpenAI API
+- Google Gemini API
+- Mock AI Provider
+
+### Resume Parsing
+- PyMuPDF
+- pdfplumber
+- python-docx
+
+---
+
+## 📸 Screenshots
+
+> Add screenshots here
+
+- Login Page
+- Dashboard
+- Resume Analysis
+- ATS Score
+- Job Match Results
+
+---
+
+## 🚀 Installation
+
+### Clone Repository
+
+```bash
+git clone https://github.com/Abhishek620y/AI-Resume-Analyzer.git
 ```
-AI-Resume-Analyzer/
-├── frontend/               React app (Vite)
-│   └── src/
-│       ├── components/     UI primitives, layout, feature components
-│       ├── pages/          Login, Register, Dashboard, Upload*, History, Analysis
-│       ├── context/        AuthContext
-│       └── services/       Axios API clients (one per backend resource)
-├── backend/                FastAPI app
-│   └── app/
-│       ├── api/            Route handlers
-│       ├── models/         SQLAlchemy models
-│       ├── schemas/        Pydantic request/response schemas
-│       ├── services/       Business logic layer
-│       ├── ats/            ATS scoring engine (6 category scorers)
-│       ├── parser/         Resume text extraction + field parsing
-│       ├── matcher/        Keyword + semantic matching engine
-│       ├── ai/             AI suggestion providers (mock/OpenAI/Gemini)
-│       ├── utils/          Security, JWT, file handling
-│       └── core/           Config, DB session, seed scripts
-├── uploads/                 Uploaded resume files (gitignored)
-├── database/                SQLite file lives here (gitignored)
-└── PROGRESS.md              Module-by-module build log
-```
 
-## Quick Start
-
-You'll need two terminals — one for the backend, one for the frontend.
-
-### 1. Backend
+### Backend
 
 ```bash
 cd backend
+
 python -m venv venv
-source venv/bin/activate          # Windows: venv\Scripts\activate
+
+# Windows
+venv\Scripts\activate
+
+# Linux / macOS
+source venv/bin/activate
 
 pip install -r requirements.txt
-python -m spacy download en_core_web_sm   # optional, improves name extraction
 
-cp .env.example .env              # defaults work out of the box (SQLite + mock AI)
-
-python -m app.core.init_db        # creates all tables
-python -m app.core.seed_skills    # seeds the master skills list
-
-uvicorn app.main:app --reload     # runs on http://localhost:8000
+uvicorn app.main:app --reload
 ```
 
-API docs (Swagger UI): **http://localhost:8000/docs**
-
-### 2. Frontend
+### Frontend
 
 ```bash
 cd frontend
+
 npm install
-cp .env.example .env              # points at http://localhost:8000/api by default
-npm run dev                       # runs on http://localhost:5173
+
+npm run dev
 ```
 
-Open **http://localhost:5173**, register an account, and you're in.
+---
 
-## Configuration Notes
+## ⚙ Environment Variables
 
-- **Database**: SQLite by default (`backend/database/app.db`). To switch to
-  Postgres, set `DATABASE_URL=postgresql://user:pass@host:5432/dbname` in
-  `backend/.env` — no code changes needed.
-- **AI Suggestions**: runs in `mock` mode by default (no API key needed —
-  the app is fully functional without one). To use real AI feedback, set in
-  `backend/.env`:
-  ```
-  AI_PROVIDER=openai        # or "gemini"
-  OPENAI_API_KEY=sk-...
-  ```
-  If the real provider ever fails (bad key, rate limit, network issue), the
-  app automatically falls back to the mock provider rather than breaking.
-- **Semantic matching**: `sentence-transformers` downloads its model
-  (~90MB) from Hugging Face on first use. If unavailable, matching
-  automatically falls back to TF-IDF cosine similarity — still fully
-  functional, just less nuanced on wording differences.
+Backend
 
-## Roles
+```env
+DATABASE_URL=sqlite:///./database/app.db
 
-- **Recruiter**: can upload/view/analyze only their own resumes and job descriptions.
-- **Admin**: sees everything across all recruiters (used for the global dashboard view).
+JWT_SECRET_KEY=your-secret-key
 
-## Build Status
+JWT_ALGORITHM=HS256
 
-All 12 planned modules are complete — see `PROGRESS.md` for the module-by-module log.
+ACCESS_TOKEN_EXPIRE_MINUTES=60
 
-## Known Limitations (documented for your viva)
+AI_PROVIDER=mock
 
-- Resume section parsing uses heuristics (blank-line-separated entries).
-  Resumes that list multiple entries as bare single lines with no blank
-  line between them will be treated as one entry rather than several.
-- Skill extraction uses a curated ~47-skill controlled vocabulary
-  (`backend/app/parser/skill_data.py`) rather than an open-ended list —
-  intentional, per the spec's requirement that skill extraction not use AI.
+OPENAI_API_KEY=
+
+GEMINI_API_KEY=
+```
+
+Frontend
+
+```env
+VITE_API_URL=https://ai-resume-analyzer-c35a.onrender.com/api
+```
+
+---
+
+## 📚 API Documentation
+
+Swagger UI
+
+https://ai-resume-analyzer-c35a.onrender.com/docs
+
+---
+
+## 📂 Project Structure
+
+```
+AI-Resume-Analyzer
+│
+├── frontend
+│
+├── backend
+│   ├── app
+│   ├── database
+│   ├── requirements.txt
+│   └── .env.example
+│
+└── uploads
+```
+
+---
+
+## 🔮 Future Improvements
+
+- Resume Ranking
+- Multiple Resume Comparison
+- Interview Question Generator
+- AI Resume Builder
+- Recruiter Analytics
+- Email Notifications
+- Export Analysis Report
+- Admin Dashboard
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome!
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Open a Pull Request
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+---
+
+## 👨‍💻 Author
+
+**Abhishek Kumar Yadav**
+
+GitHub:
+https://github.com/Abhishek620y
+
+LinkedIn:
+(Add your LinkedIn profile)
