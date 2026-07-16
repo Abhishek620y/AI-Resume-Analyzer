@@ -20,9 +20,7 @@ PyMuPDF==1.24.11
 python-docx==1.1.2
 
 # NLP
-spacy==3.7.6
-nltk==3.9.1
-sentence-transformers==3.1.1
+
 scikit-learn==1.5.2  # TF-IDF fallback for semantic matching if sentence-transformers model is unavailable
 
 # AI (OpenAI/Gemini clients — used only if API key is configured)
