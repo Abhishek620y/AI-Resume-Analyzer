@@ -15,7 +15,7 @@ An AI-powered Resume Analyzer and ATS Scoring System built using **React**, **Fa
 
 ## 🌐 Live Demo
 
-### 🔗 Frontend (Vercel)
+### 🔗 LIVE DEMO (Vercel)
 https://ai-resume-analyzer-4uj6g56pm.vercel.app
 
 ### 🔗 Backend API (Render)
@@ -215,4 +215,4 @@ GitHub:
 https://github.com/Abhishek620y
 
 LinkedIn:
-(Add your LinkedIn profile)
+https://www.linkedin.com/in/abhishek-yadav6205/
